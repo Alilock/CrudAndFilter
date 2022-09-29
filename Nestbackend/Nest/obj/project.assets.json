@@ -10264,11 +10264,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Cashloans\\OneDrive\\Desktop\\NEST\\Nest\\Nest.csproj",
+      "projectUniqueName": "C:\\Users\\Cashloans\\OneDrive\\Desktop\\CrudAndFilter\\Nestbackend\\Nest\\Nest.csproj",
       "projectName": "Nest",
-      "projectPath": "C:\\Users\\Cashloans\\OneDrive\\Desktop\\NEST\\Nest\\Nest.csproj",
+      "projectPath": "C:\\Users\\Cashloans\\OneDrive\\Desktop\\CrudAndFilter\\Nestbackend\\Nest\\Nest.csproj",
       "packagesPath": "C:\\Users\\Cashloans\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Cashloans\\OneDrive\\Desktop\\NEST\\Nest\\obj\\",
+      "outputPath": "C:\\Users\\Cashloans\\OneDrive\\Desktop\\CrudAndFilter\\Nestbackend\\Nest\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Cashloans\\AppData\\Roaming\\NuGet\\NuGet.Config",

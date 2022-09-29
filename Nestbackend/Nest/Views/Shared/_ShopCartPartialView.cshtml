@@ -1,0 +1,31 @@
+﻿@using Nest.Services
+@inject LayoutService layout
+@{
+    var basket = layout.GetBasket();
+};
+<ul>
+    @foreach (var item in basket.Products)
+    {
+        <li>
+            <div class="shopping-cart-img">
+                <a href="shop-product-right.html"><img alt="Nest" src="~/assets/imgs/shop/@item.product.ProductImages.FirstOrDefault().ImageUrl" /></a>
+            </div>
+            <div class="shopping-cart-title">
+                <h4><a href="shop-product-right.html">@item.product.Name</a></h4>
+                <h4><span>@item.Count × </span>$@(item.product.SellPrice * (100 - item.product.DiscountPercent) / 100)</h4>
+            </div>
+            <div class="shopping-cart-delete">
+                <a href="#"><i class="fi-rs-cross-small"></i></a>
+            </div>
+        </li>
+    }
+</ul>
+<div class="shopping-cart-footer">
+    <div class="shopping-cart-total">
+        <h4>Total <span>$@basket.TotalPrice</span></h4>
+    </div>
+    <div class="shopping-cart-button">
+        <a href="shop-cart.html" class="outline">View cart</a>
+        <a href="shop-checkout.html">Checkout</a>
+    </div>
+</div>

@@ -7,6 +7,7 @@ namespace Nest.DAL
     {
         public NestContext(DbContextOptions<NestContext> options):base(options)
         {
+            
         }
         public DbSet<Product> Products { get; set; }
         public DbSet<Badge> Badges { get; set; }
