@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Nest.DAL;
 using Nest.Models;
+using Nest.Services;
 using Nest.ViewModels;
 using Newtonsoft.Json;
 using Z.EntityFramework.Plus;
@@ -16,7 +17,9 @@ namespace Nest.Controllers
 {
     public class ShopController : Controller
     {
+
         private readonly NestContext _context;
+
         public ShopController(NestContext context)
         {
             _context = context;
@@ -79,8 +82,47 @@ namespace Nest.Controllers
             }
             HttpContext.Response.Cookies.Append("basket",JsonConvert.SerializeObject(basketItems), new CookieOptions { MaxAge=TimeSpan.MaxValue});
 
+            BasketVM basketVM = new BasketVM { Products = new(), TotalPrice = 0 };
+            foreach (var item in basketItems)
+            {
+                Product pr = _context.Products.Include(p => p.ProductImages).Where(p => p.Id == item.ProductId).FirstOrDefault();
+                if (pr != null)
+                {
+                    basketVM.Products.Add(new ProductBasketItem
+                    {
+                        product = pr,
+                        Count = item.Count
+                    });
+                    basketVM.TotalPrice += item.Count * pr.SellPrice * (100 - pr.DiscountPercent) / 100;
+                }
+            }
+            return PartialView("_ShopCartPartialView", basketVM);
+        }
+        public IActionResult RemoveBasket(int? id)
+        {
+            if (id is null) return BadRequest();
+            var basketItems = new List<BasketItem>();
+            string basketValue = HttpContext.Request.Cookies["basket"];
+            basketItems = JsonConvert.DeserializeObject<List<BasketItem>>(basketValue);
+            var removeitem= basketItems.FirstOrDefault(p=>p.ProductId==id);
+            basketItems.Remove(removeitem);
+            HttpContext.Response.Cookies.Append("basket", JsonConvert.SerializeObject(basketItems), new CookieOptions { MaxAge = TimeSpan.MaxValue });
 
-            return Json(HttpContext.Request.Cookies["basket"]); 
+            BasketVM basketVM = new BasketVM { Products = new(), TotalPrice = 0 };
+            foreach (var item in basketItems)
+            {
+                Product pr = _context.Products.Include(p => p.ProductImages).Where(p => p.Id == item.ProductId).FirstOrDefault();
+                if (pr != null)
+                {
+                    basketVM.Products.Add(new ProductBasketItem
+                    {
+                        product = pr,
+                        Count = item.Count
+                    });
+                    basketVM.TotalPrice += item.Count * pr.SellPrice * (100 - pr.DiscountPercent) / 100;
+                }
+            }
+            return PartialView("_ShopCartPartialView", basketVM);
         }
         public IActionResult Product()
         {

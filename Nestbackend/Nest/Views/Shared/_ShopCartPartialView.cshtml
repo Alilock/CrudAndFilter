@@ -1,10 +1,7 @@
 ﻿@using Nest.Services
-@inject LayoutService layout
-@{
-    var basket = layout.GetBasket();
-};
+@model BasketVM
 <ul>
-    @foreach (var item in basket.Products)
+    @foreach (var item in Model.Products)
     {
         <li>
             <div class="shopping-cart-img">
@@ -15,14 +12,14 @@
                 <h4><span>@item.Count × </span>$@(item.product.SellPrice * (100 - item.product.DiscountPercent) / 100)</h4>
             </div>
             <div class="shopping-cart-delete">
-                <a href="#"><i class="fi-rs-cross-small"></i></a>
+                <a asp-controller="Shop" asp-action="RemoveBasket" asp-route-id="@item.product.Id" class="remove"><i class="fi-rs-cross-small"></i></a>
             </div>
         </li>
     }
 </ul>
 <div class="shopping-cart-footer">
     <div class="shopping-cart-total">
-        <h4>Total <span>$@basket.TotalPrice</span></h4>
+        <h4>Total <span>$@Model.TotalPrice</span></h4>
     </div>
     <div class="shopping-cart-button">
         <a href="shop-cart.html" class="outline">View cart</a>

@@ -24,9 +24,8 @@ namespace Nest.Services
             if (cookie != null)
             {
                 basketItems = JsonConvert.DeserializeObject<List<BasketItem>>(cookie);
-
             }
-            
+
             BasketVM basketVM = new BasketVM {Products= new(),TotalPrice=0 };
             foreach (var item in basketItems)
             {
