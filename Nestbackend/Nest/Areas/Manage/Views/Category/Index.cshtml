@@ -1,0 +1,131 @@
+﻿@model CategoryCrViewModel
+
+
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Categories</h2>
+            <p>Add, edit or delete a category</p>
+        </div>
+        <div>
+            <input type="text" placeholder="Search Categories" class="form-control bg-white" />
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <form method="post" asp-action="Create">
+                        <div class="mb-4">
+                            <label asp-for="category.Name" class="form-label">Name</label>
+                            <input type="text" asp-for="category.Name" placeholder="Type here" class="form-control" id="product_name" />
+                            <span class="text-danger" asp-validation-for="category.Name"></span>
+                        </div>
+                        <div class="mb-4">
+                            <label asp-for="category.ImageFile" class="form-label">Slug</label>
+                            <input asp-for="category.ImageFile" type="file" accept="image/*" placeholder="Type here" class="form-control" id="product_slug" />
+                            <span class="text-danger" asp-validation-for="category.ImageFile"></span>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" id="submit" class="btn btn-primary">Create category</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-9">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr class="text-center">
+                                    <th class="text-center">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="" />
+                                        </div>
+                                    </th>
+                                    <th>Img</th>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th>Modified Date</th>
+                                    <th>Product Count</th>
+                                    <th class="text-end">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                       @foreach (var item in Model.categories)
+                                {
+                                    <tr class="text-center">
+                                        <td class="text-center">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" />
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="left">
+                                                <img src="~/assets/imgs/shop/@item.ImageUrl" class="img-sm img-thumbnail" alt="Item" />
+                                            </div>
+                                        </td>
+                                        <td>@item.Id</td>
+                                        <td><b>@item.Name</b></td>
+                                        <td>
+                                            @if (item.IsDeleted == false)
+                                            {
+                                                <span class="badge rounded-pill alert-success">Active</span>
+
+                                            }
+                                            else
+                                            {
+                                                <span class="badge rounded-pill alert-warning">Deleted</span>
+
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (@item.Modified!=null)
+                                            {
+                                                <span>@item.Modified </span>
+                                            }
+                                            else
+                                            {
+                                                <span>Not Modified yet</span>
+                                            }
+                                        </td>
+                                        <td>@item.Products.Count</td>
+                                        <td class="text-end">
+                                            <div class="dropdown">
+                                                <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item" href="#">View detail</a>
+                                                    <a class="dropdown-item" href="#">Edit info</a>
+                                                    <a class="dropdown-item text-danger" href="#">Delete</a>
+                                                </div>
+                                            </div>
+                                            <!-- dropdown //end -->
+                                        </td>
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- .col// -->
+            </div>
+            <!-- .row // -->
+        </div>
+        <!-- card body .// -->
+    </div>
+    <!-- card .// -->
+</section>
+@*@section scripts{
+    $("submit").click(function(e){
+        e.preventDefault()
+        let url = $(this).attr("href")
+         $.ajax({
+    type: "POST",
+    url: url,
+    success: success,
+    }) .done(function() {
+    alert( "second success" );
+  })
+ })
+   
+}*@
